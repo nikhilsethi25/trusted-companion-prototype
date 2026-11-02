@@ -22,7 +22,7 @@ hasn't replied by a cutoff, the buyer's assistant looks for alternatives:
 
 The **Demo** button fires the background events (reserved, no reply, late
 reply, new matching listing) and shows the events the A/B test would
-measure. German by default, English toggle; ↺ resets.
+measure. In English; ↺ resets.
 
 ## Run
 

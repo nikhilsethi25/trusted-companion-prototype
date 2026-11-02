@@ -122,14 +122,14 @@ const T = {
   },
 };
 
-const STORE_KEY = 'tc-proto-v1';
+const STORE_KEY = 'tc-proto-v1-en';
 
 function freshState() {
   return {
-    lang: 'de', screen: 'inbox', chatId: null, listingId: null, sheet: false, enabled: true,
+    lang: 'en', screen: 'inbox', chatId: null, listingId: null, sheet: false, enabled: true,
     convs: [
-      { id: 'c1', listing: 'L1', status: 'open', msgs: [{ from: 'me', text: 'Hallo! Sind die Kopfhörer noch zu haben?', time: '09:12' }] },
-      { id: 'c2', listing: 'L2', status: 'open', msgs: [{ from: 'me', text: 'Hi Tom, ist der OP-1 noch verfügbar? Würde ihn gern ansehen.', time: 'Mo' }] },
+      { id: 'c1', listing: 'L1', status: 'open', msgs: [{ from: 'me', text: 'Hi! Are the headphones still available?', time: '09:12' }] },
+      { id: 'c2', listing: 'L2', status: 'open', msgs: [{ from: 'me', text: 'Hi Tom, is the OP-1 still available? I’d like to come and see it.', time: 'Mon' }] },
     ],
     cards: [], // {conv, trigger: 'reserved'|'no_reply', kind: 'suggestions'|'alert', alert: 'offered'|'saved'|'dismissed', crit, match}
     done: { s1: false, s2: false, s3: false, s4: false },
@@ -352,7 +352,6 @@ function render() {
   document.documentElement.lang = state.lang;
   $('#brand').textContent = l.brand;
   $('#demo-open').textContent = l.demo;
-  $('#lang-toggle').textContent = state.lang === 'de' ? 'EN' : 'DE';
   if (state.screen === 'foryou' && state.unread) { state.unread = 0; save(); }
   document.querySelectorAll('.bottom-nav button').forEach((b) => {
     const s = b.dataset.screen;
