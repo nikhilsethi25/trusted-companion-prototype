@@ -8,71 +8,24 @@
 
 const LISTINGS = {
   L1: { title: 'Sony WH-1000XM4', price: 140, vb: true, cond: 'good', loc: 'Neukölln', km: 0, icon: '🎧', seller: 'Jana',
-        desc: { de: 'Noise Cancelling top, kleiner Kratzer am Bügel. Mit Tasche und Kabel.', en: 'Great noise cancelling, small scratch on the headband. With case and cable.' } },
+        desc: { en: 'Great noise cancelling, small scratch on the headband. With case and cable.' } },
   L2: { title: 'Teenage Engineering OP-1', price: 890, vb: false, cond: 'verygood', loc: 'Prenzlauer Berg', km: 0, icon: '🎹', seller: 'Tom',
-        desc: { de: 'Sehr guter Zustand, mit Originalverpackung.', en: 'Very good condition, with original box.' } },
+        desc: { en: 'Very good condition, with original box.' } },
   S1: { title: 'Bose QuietComfort 45', price: 130, vb: true, cond: 'verygood', loc: 'Kreuzberg', km: 4, icon: '🎧', seller: 'Mehmet',
-        desc: { de: 'Kaum benutzt, Akku hält super. Originalkarton dabei.', en: 'Barely used, battery is great. Original box included.' },
-        why: { de: 'Over-Ear, Noise Cancelling, sehr guter Zustand, 130 €, 4 km', en: 'Over-ear, noise cancelling, very good condition, €130, 4 km' } },
+        desc: { en: 'Barely used, battery is great. Original box included.' },
+        why: { en: 'Over-ear, noise cancelling, very good condition, €130, 4 km' } },
   S2: { title: 'Sony WH-1000XM3', price: 105, vb: true, cond: 'good', loc: 'Friedrichshain', km: 5, icon: '🎧', seller: 'Lena',
-        desc: { de: 'Funktioniert einwandfrei, leichte Gebrauchsspuren an den Polstern.', en: 'Works perfectly, light wear on the ear pads.' },
-        why: { de: 'Over-Ear, Noise Cancelling, Vorgängermodell, guter Zustand, 105 €, 5 km', en: 'Over-ear, noise cancelling, previous model, good condition, €105, 5 km' } },
+        desc: { en: 'Works perfectly, light wear on the ear pads.' },
+        why: { en: 'Over-ear, noise cancelling, previous model, good condition, €105, 5 km' } },
   S3: { title: 'Sennheiser Momentum 4', price: 165, vb: false, cond: 'good', loc: 'Mitte', km: 7, icon: '🎧', seller: 'Paul',
-        desc: { de: 'Ein Jahr alt, sehr lange Akkulaufzeit.', en: 'One year old, very long battery life.' },
-        why: { de: 'Over-Ear, Noise Cancelling, guter Zustand, 165 €, 7 km', en: 'Over-ear, noise cancelling, good condition, €165, 7 km' } },
+        desc: { en: 'One year old, very long battery life.' },
+        why: { en: 'Over-ear, noise cancelling, good condition, €165, 7 km' } },
   M1: { title: 'Teenage Engineering OP-1', price: 780, vb: true, cond: 'good', loc: 'Wedding', km: 6, icon: '🎹', seller: 'Sven',
-        desc: { de: 'Gebraucht, voll funktionsfähig, kleine Kratzer am Gehäuse.', en: 'Used, fully working, small scratches on the case.' },
-        why: { de: 'Tragbarer Synthesizer, guter Zustand, 780 €, 6 km', en: 'Portable synthesizer, good condition, €780, 6 km' } },
+        desc: { en: 'Used, fully working, small scratches on the case.' },
+        why: { en: 'Portable synthesizer, good condition, €780, 6 km' } },
 };
 
 const T = {
-  de: {
-    brand: 'Trusted Companion', demo: 'Demo',
-    navInbox: 'Nachrichten', navForYou: 'Für dich',
-    inboxH: 'Nachrichten', inboxSub: 'Deine Unterhaltungen als Käufer:in.',
-    forYouH: 'Für dich', forYouSub: 'Dein Assistent arbeitet für dich als Käufer:in. Er schreibt nie im Chat und speichert nichts ohne deine Zustimmung.',
-    forYouEmpty: 'Wenn eine Anzeige, für die du dich interessierst, reserviert wird oder der Verkäufer nicht antwortet, suche ich hier nach Alternativen.',
-    cond: { good: 'Gut', verygood: 'Sehr gut' },
-    vb: 'VB',
-    tagReserved: 'reserviert', tagNoReply: 'noch keine Antwort', tagAgent: '✦ Alternativen', tagFromSugg: '✦ über Vorschlag',
-    you: 'Du', sysReserved: (n) => `${n} hat die Anzeige als reserviert markiert.`,
-    msgPh: 'Nachricht schreiben …',
-    cardReserved: (n) => `<b>Die Anzeige von ${n} ist reserviert.</b> Dein Chat mit ${n} bleibt offen. Hier sind ähnliche Angebote in Berlin:`,
-    cardNoReply: (n) => `<b>Noch keine Antwort von ${n}.</b> Dein Chat bleibt offen. Gerade gibt es in Berlin nichts Vergleichbares.`,
-    understood: 'So habe ich deine Anfrage verstanden',
-    prof1: ['Over-Ear-Kopfhörer mit Noise Cancelling', 'Zustand: gut oder besser', '100–170 €', 'Berlin'],
-    alertAsk: 'Soll ich eine Suche speichern und dich benachrichtigen, sobald etwas Passendes eingestellt wird? Diese Kriterien würde ich verwenden:',
-    critProduct: 'Produkt', critCond: 'Zustand', critPrice: 'Preis', critLoc: 'Ort',
-    product2: 'Tragbarer Synthesizer',
-    condOpts: { goodplus: 'gut oder besser', any: 'jeder Zustand' },
-    priceOpts: { a: '650–950 €', b: 'bis 1.100 €' },
-    locOpts: { berlin: 'Berlin', ship: 'Berlin + Versand' },
-    save: 'Suche speichern', noThanks: 'Nein danke',
-    onlyOnConfirm: 'Ich speichere die Suche nur, wenn du bestätigst. Du kannst die Kriterien vorher ändern.',
-    saved: '✓ Suche gespeichert. Ich melde mich, sobald etwas passt.',
-    dismissed: 'Okay, keine Suche gespeichert.',
-    newMatch: 'Neu eingestellt und passend zu deiner Suche:',
-    whyH: 'Vorgeschlagen, weil:', km: (n) => `${n} km`,
-    write: 'Nachricht schreiben', back: '‹',
-    settingT: 'Vorschläge vom Assistenten', settingS: 'Alternativen, wenn eine Anzeige reserviert ist oder keine Antwort kommt.',
-    toastLabel: 'Assistent',
-    toastReserved: (n) => `Die Anzeige von ${n} ist reserviert. Ich habe 3 ähnliche Angebote in Berlin gefunden.`,
-    toastNoReply: (n) => `Noch keine Antwort von ${n}. Nichts Vergleichbares in Berlin: Soll ich eine Suche für dich speichern?`,
-    toastMatch: 'Neue Anzeige passt zu deiner gespeicherten Suche: Teenage Engineering OP-1, 780 €.',
-    demoTitle: 'Demo-Steuerung',
-    demoSub: 'Simuliert, was im Hintergrund passiert. Nicht Teil des Produkts.',
-    step1: 'Jana markiert die Sony-Kopfhörer als reserviert', step1s: 'Auslöser T1: Anzeige reserviert',
-    step2: '2 Tage vergehen ohne Antwort von Tom', step2s: 'Auslöser T2: keine Antwort bis zur Frist; keine passenden Angebote',
-    step3: 'Jana antwortet doch noch', step3s: 'Der Chat mit Jana bleibt offen',
-    step4: 'Neue passende Anzeige wird eingestellt', step4s: 'Nur nach gespeicherter Suche',
-    off: 'Assistent ist aus: Auslöser erzeugen keine Vorschläge.',
-    metricsH: 'Gemessen (Events)',
-    mShown: 'Vorschläge gezeigt', mClicked: 'Vorschläge geöffnet', mStarted: 'Unterhaltungen über Vorschläge',
-    mOffered: 'Suchen angeboten', mSaved: 'Suchen gespeichert', mMatches: 'Treffer gemeldet',
-    janaReply: 'Sorry, ist reserviert. Falls es nicht klappt, melde ich mich!',
-    footnote: 'Prototyp für eine Fallstudie. Skriptgesteuert, keine echten Daten. Nicht mit einem Unternehmen verbunden.',
-    resetConfirm: 'Prototyp zurücksetzen?',
-  },
   en: {
     brand: 'Trusted Companion', demo: 'Demo',
     navInbox: 'Messages', navForYou: 'For you',
@@ -150,7 +103,7 @@ const L = () => T[state.lang];
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const now = () => new Date().toTimeString().slice(0, 5);
 const conv = (id) => state.convs.find((c) => c.id === id);
-const euro = (n) => (state.lang === 'de' ? `${n.toLocaleString('de-DE')} €` : `€${n.toLocaleString('en-GB')}`);
+const euro = (n) => `€${n.toLocaleString('en-GB')}`;
 
 /* ---------- Background events (fired from the demo panel) ---------- */
 
@@ -385,7 +338,6 @@ document.addEventListener('click', (e) => {
   if (!b) return;
   if (b.id === 'toast') { state.toast = null; state.screen = 'foryou'; save(); render(); return; }
   if (b.dataset.screen) { state.screen = b.dataset.screen; save(); render(); return; }
-  if (b.id === 'lang-toggle') { state.lang = state.lang === 'de' ? 'en' : 'de'; save(); render(); return; }
   if (b.id === 'reset') { if (confirm(L().resetConfirm)) { state = freshState(); save(); render(); } return; }
   if (b.id === 'demo-open') { state.sheet = true; save(); render(); return; }
   if (b.id === 'demo-close') { state.sheet = false; save(); render(); return; }

@@ -10,7 +10,7 @@ When a listing the buyer has messaged about is reserved, or the seller
 hasn't replied by a cutoff, the buyer's assistant looks for alternatives:
 
 - **Reserved listing:** a notification, then similar offers in Berlin in
-  "Für dich", with how the assistant understood what the buyer wants and why
+  "For you", with how the assistant understood what the buyer wants and why
   each offer was suggested. Opening one and sending a message starts a new
   conversation.
 - **No reply, nothing comparable:** the assistant offers to save a search,
