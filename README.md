@@ -1,22 +1,28 @@
 # Trusted Companion prototype
 
-Mobile web prototype of an AI Trusted Companion for a C2C marketplace, built
-for an interview case study. Scripted responses: no model calls, no backend,
-no real data. Not affiliated with any company.
+Mobile web prototype of an AI buyer agent for a C2C marketplace, built for an
+interview case study. Scripted: no model calls, no backend, no real data. Not
+affiliated with any company.
 
-## What it shows (v0)
+## What it shows (v1)
 
-- Buyer and seller views on one phone (switch at the top). German by
-  default, English toggle.
-- The buyer's assistant answers questions about condition and price from the
-  listing and a price estimate, labelled as coming from the listing.
-- It never answers availability; it offers to ask the seller.
-- Questions the listing can't answer become a draft to the seller that the
-  buyer can edit, send or cancel.
-- The seller sees the question in Messages and replies; the buyer's
-  assistant reports the reply.
+When a listing the buyer has messaged about is reserved, or the seller
+hasn't replied by a cutoff, the buyer's assistant looks for alternatives:
 
-State is kept in the browser; the ↺ button resets it.
+- **Reserved listing:** a notification, then similar offers in Berlin in
+  "Für dich", with how the assistant understood what the buyer wants and why
+  each offer was suggested. Opening one and sending a message starts a new
+  conversation.
+- **No reply, nothing comparable:** the assistant offers to save a search,
+  shows the criteria it would use, lets the buyer change them, and saves only
+  on confirmation. A later matching listing triggers a notification.
+- The assistant never writes in the chat; the chat with the original seller
+  stays open, and a late reply still arrives.
+- Suggestions can be switched off.
+
+The **Demo** button fires the background events (reserved, no reply, late
+reply, new matching listing) and shows the events the A/B test would
+measure. German by default, English toggle; ↺ resets.
 
 ## Run
 

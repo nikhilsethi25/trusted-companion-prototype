@@ -11,40 +11,31 @@
   <div class="device">
     <div class="app" id="app">
       <header class="topbar">
-        <div class="role-switch" role="tablist" aria-label="Role">
-          <button type="button" data-role="buyer" role="tab"></button>
-          <button type="button" data-role="seller" role="tab"></button>
-        </div>
+        <div class="brand"><span class="spark" aria-hidden="true">✦</span> <span id="brand"></span></div>
         <div class="topbar-actions">
-          <button type="button" class="lang" id="lang-toggle" aria-label="Language"></button>
-          <button type="button" class="reset" id="reset" aria-label="Reset">↺</button>
+          <button type="button" class="demo-btn" id="demo-open"></button>
+          <button type="button" id="lang-toggle" aria-label="Language"></button>
+          <button type="button" id="reset" aria-label="Reset">↺</button>
         </div>
       </header>
 
+      <div class="toast" id="toast" role="status" hidden></div>
+
       <main class="screen" id="screen"></main>
 
-      <button type="button" class="agent-fab" id="agent-fab">
-        <span class="spark" aria-hidden="true">✦</span><span id="agent-fab-label"></span>
-      </button>
-
       <nav class="bottom-nav">
-        <button type="button" data-screen="listing"><span class="ico" aria-hidden="true">▣</span><span class="lbl"></span></button>
-        <button type="button" data-screen="chat"><span class="ico" aria-hidden="true">✉</span><span class="lbl"></span><span class="badge" hidden></span></button>
+        <button type="button" data-screen="inbox"><span class="ico" aria-hidden="true">✉</span><span class="lbl"></span></button>
+        <button type="button" data-screen="foryou"><span class="ico" aria-hidden="true">✦</span><span class="lbl"></span><span class="badge" hidden></span></button>
       </nav>
 
       <div class="sheet-backdrop" id="sheet-backdrop" hidden></div>
-      <section class="sheet" id="sheet" aria-hidden="true">
+      <section class="sheet" id="demo-sheet" aria-hidden="true">
         <div class="sheet-head">
-          <div class="sheet-title"><span class="spark" aria-hidden="true">✦</span><span id="sheet-title"></span></div>
-          <button type="button" class="sheet-close" id="sheet-close" aria-label="Close">✕</button>
+          <div class="sheet-title" id="demo-title"></div>
+          <button type="button" class="sheet-close" id="demo-close" aria-label="Close">✕</button>
         </div>
-        <div class="sheet-sub" id="sheet-sub"></div>
-        <div class="agent-log" id="agent-log"></div>
-        <div class="chips" id="agent-chips"></div>
-        <form class="composer" id="agent-form">
-          <input id="agent-input" autocomplete="off">
-          <button type="submit" aria-label="Send">➤</button>
-        </form>
+        <div class="sheet-sub" id="demo-sub"></div>
+        <div class="demo-body" id="demo-body"></div>
       </section>
     </div>
   </div>
