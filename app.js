@@ -68,6 +68,15 @@ const T = {
     step4Need2: 'Run step 2 first', step4NeedSave: 'First tap “Save search” in For you (step 2’s card)',
     step4Dismissed: 'The search wasn’t saved (“No thanks”). Tap ↺ to start again',
     step4Off: 'Suggestions are switched off, so no search was offered',
+    step4Removed: 'The saved search was removed',
+    step5: '2 weeks pass with no match', step5s: 'No match in n days (n set from data; 2 weeks here): keep or remove?',
+    step5Need: 'First save the search (step 2’s card in For you)', step5Done: 'Already asked, or a match arrived',
+    reviewAsk: 'No new matches for this search in the last 2 weeks. Keep looking, or remove it?',
+    keep: 'Keep looking', remove: 'Remove search',
+    kept: 'OK, I’ll keep looking and let you know when something matches.',
+    removed: 'Search removed. Nothing more will be sent for it.',
+    toastReview: 'No new matches for your saved search in 2 weeks. Keep it or remove it?',
+    mRemoved: 'Searches removed',
     off: 'Assistant is off: triggers create no suggestions.',
     metricsH: 'Measured (events)',
     mShown: 'Suggestions shown', mClicked: 'Suggestions opened', mStarted: 'Conversations from suggestions',
@@ -78,7 +87,7 @@ const T = {
   },
 };
 
-const STORE_KEY = 'tc-proto-v1-en';
+const STORE_KEY = 'tc-proto-v1-en-2';
 
 function freshState() {
   return {
@@ -88,10 +97,10 @@ function freshState() {
       { id: 'c2', listing: 'L2', status: 'open', msgs: [{ from: 'me', text: 'Hi Tom, is the OP-1 still available? I’d like to come and see it.', time: 'Mon' }] },
     ],
     cards: [], // {conv, trigger: 'reserved'|'no_reply', kind: 'suggestions'|'alert', alert: 'offered'|'saved'|'dismissed', crit, match}
-    done: { s1: false, s2: false, s3: false, s4: false },
+    done: { s1: false, s2: false, s3: false, s4: false, s5: false },
     unread: 0,
     toast: null,
-    m: { shown: 0, clicked: 0, started: 0, offered: 0, saved: 0, matches: 0 },
+    m: { shown: 0, clicked: 0, started: 0, offered: 0, saved: 0, matches: 0, removed: 0 },
   };
 }
 
@@ -149,6 +158,13 @@ function step4() { // alert match
   state.done.s4 = true;
   state.m.matches += 1;
   notify('match');
+}
+function step5() { // saved search, no match in n days: ask keep or remove
+  const card = state.cards.find((k) => k.conv === 'c2' && k.alert === 'saved');
+  if (!card || card.match || card.review) return;
+  card.review = 'asked';
+  state.done.s5 = true;
+  notify('review');
 }
 
 /* ---------- Rendering ---------- */
@@ -223,7 +239,18 @@ function renderCard(k, i) {
       <div class="note">${esc(l.onlyOnConfirm)}</div>`;
   } else if (k.alert === 'saved') {
     body += `<div class="done">${esc(l.saved)}</div>`;
+    if (k.review === 'asked') {
+      body += `<div class="note">${esc(l.reviewAsk)}</div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-ghost" data-review-remove="${i}">${esc(l.remove)}</button>
+          <button type="button" class="btn btn-agent" data-review-keep="${i}">${esc(l.keep)}</button>
+        </div>`;
+    } else if (k.review === 'kept') {
+      body += `<div class="note">${esc(l.kept)}</div>`;
+    }
     if (k.match) body += `<div class="lbl-sm">${esc(l.newMatch)}</div>${listingRow(k.match)}`;
+  } else if (k.alert === 'removed') {
+    body += `<div class="note">${esc(l.removed)}</div>`;
   } else {
     body += `<div class="note">${esc(l.dismissed)}</div>`;
   }
@@ -289,7 +316,17 @@ function step4Hint(savedAlert) {
   if (!state.done.s2) return l.step4Need2;
   const card = state.cards.find((k) => k.conv === 'c2');
   if (!card) return l.step4Off;
+  if (card.alert === 'removed') return l.step4Removed;
   return card.alert === 'dismissed' ? l.step4Dismissed : l.step4NeedSave;
+}
+
+function step5State() {
+  const l = L();
+  const card = state.cards.find((k) => k.conv === 'c2');
+  const ready = !!card && card.alert === 'saved' && !card.match && !card.review;
+  if (ready) return [l.step5s, true];
+  if (card && (card.review || card.match)) return [l.step5Done, false];
+  return [l.step5Need, false];
 }
 
 function renderDemo() {
@@ -300,6 +337,7 @@ function renderDemo() {
     ['s2', l.step2, l.step2s, !state.done.s2],
     ['s3', l.step3, l.step3s, state.done.s1 && !state.done.s3],
     ['s4', l.step4, step4Hint(savedAlert), savedAlert && !state.done.s4],
+    ['s5', l.step5, step5State()[0], step5State()[1]],
   ];
   const m = state.m;
   $('#demo-title').textContent = l.demoTitle;
@@ -309,7 +347,7 @@ function renderDemo() {
     + (state.enabled ? '' : `<div class="note">${esc(l.off)}</div>`)
     + `<div class="metrics"><b>${esc(l.metricsH)}</b><br>
         ${esc(l.mShown)}: <b>${m.shown}</b> · ${esc(l.mClicked)}: <b>${m.clicked}</b> · ${esc(l.mStarted)}: <b>${m.started}</b><br>
-        ${esc(l.mOffered)}: <b>${m.offered}</b> · ${esc(l.mSaved)}: <b>${m.saved}</b> · ${esc(l.mMatches)}: <b>${m.matches}</b></div>`;
+        ${esc(l.mOffered)}: <b>${m.offered}</b> · ${esc(l.mSaved)}: <b>${m.saved}</b> · ${esc(l.mMatches)}: <b>${m.matches}</b> · ${esc(l.mRemoved)}: <b>${m.removed || 0}</b></div>`;
 }
 
 function render() {
@@ -330,7 +368,7 @@ function render() {
   $('#screen').innerHTML = views[state.screen]();
   const toast = $('#toast');
   if (state.toast) {
-    const text = state.toast === 'reserved' ? l.toastReserved('Jana') : state.toast === 'noreply' ? l.toastNoReply('Tom') : l.toastMatch;
+    const text = state.toast === 'reserved' ? l.toastReserved('Jana') : state.toast === 'noreply' ? l.toastNoReply('Tom') : state.toast === 'review' ? l.toastReview : l.toastMatch;
     toast.innerHTML = `<span class="spark">✦</span><div><b>${esc(l.toastLabel)}</b>${esc(text)}</div>`;
     toast.hidden = false;
   } else toast.hidden = true;
@@ -354,7 +392,7 @@ document.addEventListener('click', (e) => {
   if (b.id === 'demo-open') { state.sheet = true; save(); render(); return; }
   if (b.id === 'demo-close') { state.sheet = false; save(); render(); return; }
   if (b.dataset.step) {
-    ({ s1: step1, s2: step2, s3: step3, s4: step4 })[b.dataset.step]();
+    ({ s1: step1, s2: step2, s3: step3, s4: step4, s5: step5 })[b.dataset.step]();
     state.sheet = false; save(); render(); return;
   }
   if (b.id === 'toggle-enabled') { state.enabled = !state.enabled; save(); render(); return; }
@@ -372,6 +410,16 @@ document.addEventListener('click', (e) => {
   if (b.dataset.alertYes) {
     const k = state.cards[Number(b.dataset.alertYes)];
     if (k && k.alert === 'offered') { k.alert = 'saved'; state.m.saved += 1; }
+    save(); render(); return;
+  }
+  if (b.dataset.reviewKeep) {
+    const k = state.cards[Number(b.dataset.reviewKeep)];
+    if (k && k.review === 'asked') k.review = 'kept';
+    save(); render(); return;
+  }
+  if (b.dataset.reviewRemove) {
+    const k = state.cards[Number(b.dataset.reviewRemove)];
+    if (k && k.review === 'asked') { k.review = 'removed'; k.alert = 'removed'; state.m.removed = (state.m.removed || 0) + 1; }
     save(); render(); return;
   }
   if (b.dataset.alertNo) {

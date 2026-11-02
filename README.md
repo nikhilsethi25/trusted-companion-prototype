@@ -16,12 +16,15 @@ hasn't replied by a cutoff, the buyer's assistant looks for alternatives:
 - **No reply, nothing comparable:** the assistant offers to save a search,
   shows the criteria it would use, lets the buyer change them, and saves only
   on confirmation. A later matching listing triggers a notification.
+  If no match arrives within n days (2 weeks in the demo), the assistant
+  asks whether to keep the search or remove it; it removes it only if the
+  buyer says so.
 - The assistant never writes in the chat; the chat with the original seller
   stays open, and a late reply still arrives.
 - Suggestions can be switched off.
 
 The **Demo** button fires the background events (reserved, no reply, late
-reply, new matching listing) and shows the events the A/B test would
+reply, new matching listing, no match for 2 weeks) and shows the events the A/B test would
 measure. In English; ↺ resets.
 
 ## Run
