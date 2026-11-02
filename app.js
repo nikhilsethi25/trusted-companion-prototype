@@ -64,7 +64,10 @@ const T = {
     step1: 'Jana marks the Sony headphones as reserved', step1s: 'Trigger T1: listing reserved',
     step2: '2 days pass with no reply from Tom', step2s: 'Trigger T2: no reply by the cutoff; no matching offers',
     step3: 'Jana replies after all', step3s: 'The chat with Jana stays open',
-    step4: 'A new matching listing is posted', step4s: 'Only after a saved search',
+    step4: 'A new matching listing is posted', step4s: 'Matches the saved search from step 2',
+    step4Need2: 'Run step 2 first', step4NeedSave: 'First tap “Save search” in For you (step 2’s card)',
+    step4Dismissed: 'The search wasn’t saved (“No thanks”). Tap ↺ to start again',
+    step4Off: 'Suggestions are switched off, so no search was offered',
     off: 'Assistant is off: triggers create no suggestions.',
     metricsH: 'Measured (events)',
     mShown: 'Suggestions shown', mClicked: 'Suggestions opened', mStarted: 'Conversations from suggestions',
@@ -280,6 +283,15 @@ function renderListing() {
     </div>`;
 }
 
+function step4Hint(savedAlert) {
+  const l = L();
+  if (savedAlert || state.done.s4) return l.step4s;
+  if (!state.done.s2) return l.step4Need2;
+  const card = state.cards.find((k) => k.conv === 'c2');
+  if (!card) return l.step4Off;
+  return card.alert === 'dismissed' ? l.step4Dismissed : l.step4NeedSave;
+}
+
 function renderDemo() {
   const l = L();
   const savedAlert = state.cards.some((k) => k.conv === 'c2' && k.alert === 'saved');
@@ -287,7 +299,7 @@ function renderDemo() {
     ['s1', l.step1, l.step1s, !state.done.s1],
     ['s2', l.step2, l.step2s, !state.done.s2],
     ['s3', l.step3, l.step3s, state.done.s1 && !state.done.s3],
-    ['s4', l.step4, l.step4s, savedAlert && !state.done.s4],
+    ['s4', l.step4, step4Hint(savedAlert), savedAlert && !state.done.s4],
   ];
   const m = state.m;
   $('#demo-title').textContent = l.demoTitle;
